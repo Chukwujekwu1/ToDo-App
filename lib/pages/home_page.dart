@@ -10,9 +10,10 @@ class MyHome extends StatefulWidget {
 }
 
 class _MyHomeState extends State<MyHome> {
+  final _controller = TextEditingController();
   List todoList = [
-    ['Make Tutorial', false],
-    ['Do Execise', false],
+    ["Make Tutorial", false],
+    ["Do Execise", false],
   ];
   void checkBoxChanged(bool? value, int index) {
     setState(() {
@@ -20,16 +21,27 @@ class _MyHomeState extends State<MyHome> {
     });
   }
 
+  void saveNewTask() {
+    setState(() {
+      todoList.add([_controller.text, false]);
+      _controller.clear();
+    });
+    print(todoList.last);
+    Navigator.of(context).pop();
+  }
+
   void createNewTask() {
     showDialog(
       context: context,
       builder: (context) {
-        return DialogBox(controller:_controller ,);
+        return DialogBox(
+          controller: _controller,
+          onSave: saveNewTask,
+          onCancel: () => Navigator.of(context).pop(),
+        );
       },
     );
   }
-
-  final _controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +54,7 @@ class _MyHomeState extends State<MyHome> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: createNewTask,
-        shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         child: const Icon(Icons.add),
       ),
       body: ListView.builder(
