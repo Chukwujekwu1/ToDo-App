@@ -24,10 +24,12 @@ class _MyHomeState extends State<MyHome> {
     showDialog(
       context: context,
       builder: (context) {
-        return DialogBox();
+        return DialogBox(controller:_controller ,);
       },
     );
   }
+
+  final _controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
